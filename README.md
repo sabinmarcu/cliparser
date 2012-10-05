@@ -20,7 +20,11 @@ This particular project has the point of helping me do some cool stuff with Type
 > "dash": { "o": ["./file.js"] }    
 > "doubledash": { "--watch": ["all"] }    
 > }    
-        
+>        
+>        
+> Called for : "node file -o ./file.js --watch all"
+
+
 ##
 
 ## I hope that one day it might help people to do some stuff with it, apart from helping me understand it.
