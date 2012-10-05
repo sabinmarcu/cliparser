@@ -1,4 +1,5 @@
 # CLI Parser
+[![Build Status](https://secure.travis-ci.org/sabinmarcu/cliparser.png)](http://travis-ci.org/sabinmarcu/cliparser)
 
 Have you ever heard of a language named [Typescript]("http://typescriptlang.com/")?
 It's a cool new programming language created by [ Microsoft ]("http://microsoft.com/") that extends Javascript and adds cool new functionality like classes, with private, public scopes, constructors, ... it basically makes Javascript a lot less chaotic.
