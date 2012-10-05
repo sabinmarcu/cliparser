@@ -5,6 +5,24 @@ It's a cool new programming language created by [ Microsoft ]("http://microsoft.
 
 This particular project has the point of helping me do some cool stuff with Typescript (or learn to do it :P)
 
+#### Example : 
+
+	Package = require("./parser")
+	Parser = new Package.Parser
+
+	Parser.parse(process.argv)
+	console.log(Parser)
+
+> Results :   
+>      
+> {    
+> "single": ["node", "file"]  
+> "dash": { "o": ["./file.js"] }    
+> "doubledash": { "--watch": ["all"] }    
+> }    
+        
+##
+
 ## I hope that one day it might help people to do some stuff with it, apart from helping me understand it.
 
 <table>
