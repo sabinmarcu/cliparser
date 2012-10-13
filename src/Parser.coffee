@@ -31,30 +31,30 @@ class Parser
 
 	# The parse interface either retrieves the active parser,
 	# either starts using a new one :) 
-	@parse: (arg) ->
+	@parse: (arg, opts = {}) ->
 		# If arguments are not supplied then an error is triggered
 		throw ErrorReporter.generate 1 if not arg?
 
 		# If anything has changed since last time, then reuse that result
 		if @_activeParser? and @_lastArgv is arg then @_activeParser.results
-	
+
 		# Otherwise, force-parse the arguments received
-		else @reparse arg
+		else @reparse arg, opts
 	
 	# Using the reparse function as a force-parse function
-	@reparse: (arg) ->
+	@reparse: (arg, opts = {}) ->
 
 		# Treat the no-arguments case
 		throw ErrorReporter.generate 1 if not arg?
 
 		# Generate a new parser to build the new results
-		@_activeParser = new Parser(arg)
+		@_activeParser = new Parser(arg, opts)
 		@_activeParser.results
 
 	# And now, the interface being created, let us focus on the instance object
 	# The constructor is going to accept the arguments and then focus on parsing
 	# the input received.
-	constructor: (args) ->
+	constructor: (args, opts = {}) ->
 
 		# Treating the no arguments case
 		throw ErrorReporter.generate 2 if not args?
@@ -77,6 +77,7 @@ class Parser
 		@dds = {}
 		@rawArgs = args
 		@results = {}
+		@symlinkOptions = opts
 	
 		# Return the result of parsing the arguments
 		do @_parse
@@ -139,6 +140,18 @@ class Parser
 		
 			#Incrementing the index properly
 			index += results.length + 1
+
+		# Checking for symlinks (link single to doubledash and otherwise)
+		# Creating a function to handle the equalization of two segments
+		_equal = (n1, n2, a1, a2) ->
+			if a2[n2]? and a2[n2].length > 0
+				a1[n1].push argument for argument in a2[n2]
+			a2[n2] = a1[n1]
+
+		# And then leveraging the parameters :)
+		for what, link of @symlinkOptions
+			if what[1] is "-" then _equal (what.substr 2), (link.substr 1), @ds, @dds
+			else _equal (what.substr 1), (link.substr 2), @ds, @dds
 		
 		# And now to beautify the output a bit ... :)
 		# The last calculated line of a function is automatically turned into

@@ -81,3 +81,29 @@ describe "Parser Instance Object", ->
 		(expect results.doubledash["and"]).toContain "for"
 		(expect results.doubledash["some"]).toContain "crap"
 
+	it "Should make some symlinks right", ->
+		Parser = require "./Parser"
+
+		results = Parser.parse [
+			"node"
+			"run"
+			"-o"
+			"./lib/parse"
+			"--watch"
+			"for"
+			"files"
+			"--and"
+			"search"
+			"for"
+			"--some"
+			"crap"
+			"-a"
+			"good"
+		], { "-a" : "--watch" }
+
+		(expect results.dash['a']).toContain "for"
+		(expect results.dash['a']).toContain "files"
+		(expect results.doubledash['watch']).toContain "good"
+
+
+
