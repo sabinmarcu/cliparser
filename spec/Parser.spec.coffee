@@ -99,11 +99,13 @@ describe "Parser Instance Object", ->
 			"crap"
 			"-a"
 			"good"
-		], { "-a" : "--watch" }
+		], { "-a" : "--watch", "--ceva", "-c" }
 
 		(expect results.dash['a']).toContain "for"
 		(expect results.dash['a']).toContain "files"
 		(expect results.doubledash['watch']).toContain "good"
+		(expect typeof results.dash['c']).toBe "undefined"
+		(expect typeof results.doubledash['ceva']).toBe "undefined"
 
 
 

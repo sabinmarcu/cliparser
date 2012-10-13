@@ -150,8 +150,8 @@ class Parser
 
 		# And then leveraging the parameters :)
 		for what, link of @symlinkOptions
-			if what[1] is "-" then _equal (what.substr 2), (link.substr 1), @ds, @dds
-			else _equal (what.substr 1), (link.substr 2), @ds, @dds
+			if what[1] is "-" and @dds[what.substr 2]? then _equal (what.substr 2), (link.substr 1), @ds, @dds 
+			else if @ds[what.substr 1]? then _equal (what.substr 1), (link.substr 2), @ds, @dds 
 		
 		# And now to beautify the output a bit ... :)
 		# The last calculated line of a function is automatically turned into
