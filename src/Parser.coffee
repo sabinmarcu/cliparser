@@ -60,7 +60,7 @@ class Parser
 		throw ErrorReporter.generate 2 if not args?
 
 		# Now, to figure out of which type the arguments are. We only work with arrays :P
-		if args.substr? then args = args.splice " "
+		if args.substr? then args = args.split " "
 	
 		# Initialize some class variables :
 		# @S = Single Arguments (before any dash arguments)
@@ -150,7 +150,7 @@ class Parser
 
 		# And then leveraging the parameters :)
 		for what, link of @symlinkOptions
-			if what[1] is "-" and @dds[what.substr 2]? then _equal (what.substr 2), (link.substr 1), @ds, @dds 
+			if what[1] is "-" and @dds[what.substr 2]? then _equal (what.substr 2), (link.substr 1), @dds, @ds 
 			else if @ds[what.substr 1]? then _equal (what.substr 1), (link.substr 2), @ds, @dds 
 		
 		# And now to beautify the output a bit ... :)

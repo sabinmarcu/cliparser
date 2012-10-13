@@ -109,3 +109,15 @@ describe "Parser Instance Object", ->
 
 
 
+	it "Redundant checking + splicing", ->
+		Parser = require "./Parser"
+
+		results = Parser.parse "coffee ./lib/script --modify dependencies stuff -m version", { "--modify": "-m" }
+
+		(expect results.dash["m"]).toContain "dependencies"
+		(expect results.dash["m"]).toContain "stuff"
+		(expect results.doubledash["modify"]).toContain "version"
+
+
+
+
