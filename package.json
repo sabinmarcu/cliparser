@@ -12,5 +12,6 @@
 		"run-tests": "node node_modules/.bin/jasmine-node --coffee --color spec",
 		"test": "npm run-script compile && npm run-script run-tests",
 		"index": "lib/Parser.js"
-	}
+	},
+	"main": "./lib/Parser.js"
 }
