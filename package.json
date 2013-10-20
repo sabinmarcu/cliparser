@@ -1,17 +1,22 @@
 {
-	"name": "cliparser",
-	"version": "0.1.1",
-	"author": "Sabin Marcu <sabinmarcu@gmail.com>",
-	"dependencies": {
-		"coffee-script": "1.3.3",
-		"jasmine-node": "1.0.26"
-	},
-	"scripts": {
-		"compile": "node node_modules/.bin/coffee -c -o lib src",
-		"run-index": "node lib/index.js",
-		"run-tests": "node node_modules/.bin/jasmine-node --coffee --color spec",
-		"test": "npm run-script compile && npm run-script run-tests",
-		"index": "lib/Parser.js"
-	},
-	"main": "./lib/Parser.js"
+  "name": "cliparser",
+  "version": "0.2.1",
+  "author": "Sabin Marcu <sabinmarcu@gmail.com>",
+  "dependencies": {
+    "chai": "~1.8.1",
+    "mocha": "~1.13.0",
+    "LiveScript": "~1.2.0",
+    "coffee-script": "~1.6.3",
+    "isf": "~0.3.2"
+  },
+  "scripts": {
+    "compile": "node ./node_modules/.bin/livescript --require isf --prelude -c -o lib src",
+    "run-test": "node ./node_modules/.bin/mocha",
+    "run-jscov-test": "node ./node_modules/.bin/mocha -R html-cov > coverage.html",
+    "run-jscov": "jscoverage lib lib-cov",
+    "cleanup-jscov": "rm -rf lib-cov && rm coverage.html",
+    "test": "npm run-script compile && npm run-script run-test ",
+    "start": "npm test && npm run-script run-jscov && npm run-script run-jscov-test && open coverage.html"
+  },
+  "main": "./lib/Parser.js"
 }
