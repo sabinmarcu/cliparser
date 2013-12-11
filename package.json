@@ -1,6 +1,6 @@
 {
   "name": "cliparser",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "Sabin Marcu <sabinmarcu@gmail.com>",
   "dependencies": {
     "chai": "~1.8.1",

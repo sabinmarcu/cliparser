@@ -60,16 +60,18 @@ class Parser extends IS.Object
 		for f, t of sets
 			if (@second-letter f) is "-"
 				f = f.substr 2; t = t.substr 1
-				if not @double-dash-args[f]? then @double-dash-args[f] = @double-dash-args[@double-dash-args.length++] = []
-				if not @single-dash-args[t]? then @single-dash-args[t] = @single-dash-args[@single-dash-args.length++] = []
-				for item in @double-dash-args[f] when not (item in @single-dash-args[t]) then @single-dash-args[t].push item
-				for item in @single-dash-args[t] when not (item in @double-dash-args[f]) then @double-dash-args[f].push item
+				if @double-dash-args[f]? or @single-dash-args[t]?
+					if not @double-dash-args[f]? then @double-dash-args[f] = @double-dash-args[@double-dash-args.length++] = []
+					if not @single-dash-args[t]? then @single-dash-args[t] = @single-dash-args[@single-dash-args.length++] = []
+					for item in @double-dash-args[f] when not (item in @single-dash-args[t]) then @single-dash-args[t].push item
+					for item in @single-dash-args[t] when not (item in @double-dash-args[f]) then @double-dash-args[f].push item
 			else
 				f = f.substr 1; t = t.substr 2
-				if not @double-dash-args[t]? then @double-dash-args[t] = @double-dash-args[@double-dash-args.length++] = []
-				if not @single-dash-args[f]? then @single-dash-args[f] = @single-dash-args[@single-dash-args.length++] = []
-				for item in @double-dash-args[t] when not (item in @single-dash-args[f]) then @single-dash-args[f].push item
-				for item in @single-dash-args[f] when not (item in @double-dash-args[t]) then @double-dash-args[t].push item
+				if @double-dash-args[t]? or @single-dash-args[f]?
+					if not @double-dash-args[t]? then @double-dash-args[t] = @double-dash-args[@double-dash-args.length++] = []
+					if not @single-dash-args[f]? then @single-dash-args[f] = @single-dash-args[@single-dash-args.length++] = []
+					for item in @double-dash-args[t] when not (item in @single-dash-args[f]) then @single-dash-args[f].push item
+					for item in @single-dash-args[f] when not (item in @double-dash-args[t]) then @double-dash-args[t].push item
 		@
 
 	expect: (...sets) ~>

@@ -116,6 +116,22 @@ describe "Parser", ->
 		(typeof Parser.singleDashArgs["p"]).should.equal "boolean"
 		Parser.singleDashArgs["p"].should.equal false
 
+	it "should get the single-quote at init and EXPECT", ->
+
+		Parser = new parser("some crazy batshit -s -c").expect("-s", "-p", "-c");
+
+		(typeof Parser.singleDashArgs).should.not.equal "undefined"
+		(typeof Parser.singleDashArgs).should.equal "object"
+
+		Parser.singleDashArgs.length.should.equal 2
+
+		(typeof Parser.singleDashArgs[0]).should.equal "object"
+		(typeof Parser.singleDashArgs[1]).should.equal "object"
+		(typeof Parser.singleDashArgs["s"]).should.equal "object"
+		(typeof Parser.singleDashArgs["c"]).should.equal "object"
+		(typeof Parser.singleDashArgs["p"]).should.equal "object"
+		("" + Parser.singleDashArgs["p"]).should.equal "null"
+
 	it "should get the double-quote at init", ->
 
 		Parser = new parser("some crazy batshit --save --compile");
@@ -363,6 +379,92 @@ describe "Parser", ->
 
 		Parser.singleDashArgs["s"][0].should.equal "ceva"
 		Parser.singleDashArgs["s"][1].should.equal "foarte"
+
+		(typeof Parser.finalArg).should.not.equal "undefined"
+		(typeof Parser.finalArg).should.equal "string"
+
+		Parser.finalArg.should.equal "naspa"
+
+
+it "should get the double-quote and single-quote arguments and FINAL ARG at init and LINK THEM part 2", ->
+
+		Parser = new parser("some crazy batshit -sc nimic util --compile not naspa").link "--save": "-s", "-c": "--compile";
+
+		(typeof Parser.doubleDashArgs).should.not.equal "undefined"
+		(typeof Parser.doubleDashArgs).should.equal "object"
+
+		Parser.doubleDashArgs.length.should.equal 2
+
+		(typeof Parser.doubleDashArgs[0]).should.equal "object"
+		Parser.doubleDashArgs[0].length.should.equal 3
+		(typeof Parser.doubleDashArgs[1]).should.equal "object"
+		Parser.doubleDashArgs[1].length.should.equal 0
+		(typeof Parser.doubleDashArgs["save"]).should.equal "object"
+		Parser.doubleDashArgs["save"].length.should.equal 0
+		(typeof Parser.doubleDashArgs["compile"]).should.equal "object"
+		Parser.doubleDashArgs["compile"].length.should.equal 3
+
+		Parser.doubleDashArgs["compile"][0].should.equal "not"
+		Parser.doubleDashArgs["compile"][1].should.equal "nimic"
+		Parser.doubleDashArgs["compile"][2].should.equal "util"
+
+		Parser.singleDashArgs.length.should.equal 2
+
+		(typeof Parser.singleDashArgs[0]).should.equal "object"
+		Parser.singleDashArgs[0].length.should.equal 0
+		(typeof Parser.singleDashArgs[1]).should.equal "object"
+		Parser.singleDashArgs[1].length.should.equal 3
+		(typeof Parser.singleDashArgs["s"]).should.equal "object"
+		Parser.singleDashArgs["s"].length.should.equal 0
+		(typeof Parser.singleDashArgs["c"]).should.equal "object"
+		Parser.singleDashArgs["c"].length.should.equal 3
+
+		Parser.singleDashArgs["c"][0].should.equal "nimic"
+		Parser.singleDashArgs["c"][1].should.equal "util"
+		Parser.singleDashArgs["c"][2].should.equal "not"
+
+		(typeof Parser.finalArg).should.not.equal "undefined"
+		(typeof Parser.finalArg).should.equal "string"
+
+		Parser.finalArg.should.equal "naspa"
+
+
+it "should get the double-quote and single-quote arguments and FINAL ARG at init and LINK THEM part 4 (WITH BOOLEANIFY and MISSING LINK)", ->
+
+		Parser = new parser("some crazy batshit -sc nimic util --compile not naspa").link("--save": "-s", "-c": "--compile", "-p": "--port").booleanify();
+
+		(typeof Parser.doubleDashArgs).should.not.equal "undefined"
+		(typeof Parser.doubleDashArgs).should.equal "object"
+
+		Parser.doubleDashArgs.length.should.equal 2
+
+		(typeof Parser.doubleDashArgs[0]).should.equal "object"
+		Parser.doubleDashArgs[0].length.should.equal 3
+		(typeof Parser.doubleDashArgs[1]).should.equal "boolean"
+		Parser.doubleDashArgs[1].should.equal true
+		(typeof Parser.doubleDashArgs["save"]).should.equal "boolean"
+		Parser.doubleDashArgs["save"].should.equal true
+		(typeof Parser.doubleDashArgs["compile"]).should.equal "object"
+		Parser.doubleDashArgs["compile"].length.should.equal 3
+
+		Parser.doubleDashArgs["compile"][0].should.equal "not"
+		Parser.doubleDashArgs["compile"][1].should.equal "nimic"
+		Parser.doubleDashArgs["compile"][2].should.equal "util"
+
+		Parser.singleDashArgs.length.should.equal 2
+
+		(typeof Parser.singleDashArgs[0]).should.equal "boolean"
+		Parser.singleDashArgs[0].should.equal true
+		(typeof Parser.singleDashArgs[1]).should.equal "object"
+		Parser.singleDashArgs[1].length.should.equal 3
+		(typeof Parser.singleDashArgs["s"]).should.equal "boolean"
+		Parser.singleDashArgs["s"].should.equal true
+		(typeof Parser.singleDashArgs["c"]).should.equal "object"
+		Parser.singleDashArgs["c"].length.should.equal 3
+
+		Parser.singleDashArgs["c"][0].should.equal "nimic"
+		Parser.singleDashArgs["c"][1].should.equal "util"
+		Parser.singleDashArgs["c"][2].should.equal "not"
 
 		(typeof Parser.finalArg).should.not.equal "undefined"
 		(typeof Parser.finalArg).should.equal "string"
